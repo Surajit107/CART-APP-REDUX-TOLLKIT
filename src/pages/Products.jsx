@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItem } from '../redux/slice/CartSlice'
 import { fetchProducts } from '../redux/slice/ProductSlice'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Products = () => {
     const dispatch = useDispatch()
@@ -27,7 +30,7 @@ const Products = () => {
                     products?.map((product) => {
                         return (
                             <div className="col" key={product.id}>
-                                <div className="shadow p-3 mb-5 bg-body rounded text-center" style={{height : "90%"}}>
+                                <div className="shadow p-3 mb-5 bg-body rounded text-center" style={{ height: "90%" }}>
                                     <img src={product.image} className="card-img-top" alt="" style={{ height: "120px", width: "110px" }} />
 
                                     <div className="card-body mt-3">
@@ -38,14 +41,17 @@ const Products = () => {
                                     </div>
                                     <button
                                         className='btn btn-primary btn-sm fw-bold'
-                                        onClick={() => addProduct(product)}
-                                    >Add To Cart</button>
+                                        onClick={() => addProduct(product)}>
+                                        <i class="fa-solid fa-cart-plus"></i>
+                                        &nbsp;&nbsp;Add To Cart
+                                    </button>
                                 </div>
                             </div>
                         )
                     })
                 }
             </div>
+            <ToastContainer />
         </div>
     )
 }

@@ -1,37 +1,86 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from 'react-toastify';
 
 export const CartSlice = createSlice({
     name: "name",
     initialState: {
         cartData: [],
-        subtotal: 0,
         total: 0
     },
     reducers: {
         addItem(state, action) {
-            state.cartData.push(action.payload)
+            const itemIndex = state.cartData.findIndex(item => item.id === action.payload.id)
+            if (itemIndex >= 0) {
+                toast.info("Item Is Already Added To The Cart", {
+                    position: "top-right",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                })
+            } else {
+                state.cartData.push(action.payload)
+            }
         },
         removeItem(state, action) {
-            state.cartData = state.cartData.filter((item) => item.id !== action.payload)
+            state.cartData = state.cartData.filter((item) => item.id !== action.payload.id)
         },
-        // IncItems(state, action) {
-        //     return state.filter((item) => {
-        //         if (item.id === action.payload) {
-        //             return (item.length + 1)
-        //         }
-        //         console.log(item);
-        //         return item.length
-        //     })
-        // },
-        // DecItems(state, action) {
-        //     return state.filter((item) => {
-        //         if (item.id === action.payload && item.length > 1) {
-        //             return (item.length - 1)
-        //         }
-        //         return item.length
-        //     })
-        // }
+        IncItems(state, action) {
+            const newData = state.cartData.map((item) => {
+                if (item.id === action.payload) {
+                    let newQuantity = item.quantity + 1
+                    return {
+                        ...item,
+                        quantity: newQuantity
+                    }
+                }
+                return item
+            })
+            return {
+                ...state,
+                cartData: newData
+            }
+        },
+        DecItems(state, action) {
+            const newData = state.cartData.map((item) => {
+                if (item.id === action.payload) {
+                    let newQuantity = item.quantity - 1
+                    if (newQuantity < 1) {
+                        newQuantity = 1
+                    }
+                    return {
+                        ...item,
+                        quantity: newQuantity
+                    }
+                }
+                return item
+            })
+            return {
+                ...state,
+                cartData: newData
+            }
+        },
+        TotalPrice(state) {
+            let amount = 0
+            state.cartData.map((item) => {
+                amount += (Number(item.quantity) * Number(item.price))
+                return amount
+            })
+            return {
+                ...state,
+                total: amount
+            }
+        },
+        EmptyCart(state) {
+            return {
+                ...state,
+                cartData: []
+            }
+        }
     }
 })
 
-export const { addItem, removeItem, IncrementItems, DecrementItems } = CartSlice.actions 
+export const { addItem, removeItem, IncItems, DecItems, TotalPrice, EmptyCart } = CartSlice.actions 

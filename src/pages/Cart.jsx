@@ -1,21 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { removeItem } from '../redux/slice/CartSlice'
+import { DecItems, EmptyCart, IncItems, removeItem, TotalPrice } from '../redux/slice/CartSlice'
 
 const Cart = () => {
   const dispatch = useDispatch()
-  const {cartData} = useSelector((state) => state.cart)
-  const [amount, setAmount] = useState(1)
+  const { cartData, total } = useSelector((state) => state.cart)
 
-  const removeProduct = (productId) => {
-    dispatch(removeItem(productId))
-  }
-
-  const IncrementItems = () => {
-    setAmount(amount + 1)
-  }
-  const DecrementItems = () => {
-    amount > 1 ? setAmount(amount - 1) : setAmount(1)
+  const removeProduct = (product) => {
+    dispatch(removeItem(product))
   }
 
   return (
@@ -23,15 +15,15 @@ const Cart = () => {
       {
         cartData.length ?
 
-          <table className="table text-center">
+          <table className="table table-hover text-center">
             <thead>
               <tr>
                 <th scope="col">Product</th>
                 <th scope="col">Name</th>
-                <th scope="col">Price</th>
+                <th scope="col" style={{ width: "100px" }}>Price</th>
                 <th scope="col">Amount</th>
-                <th scope="col">Subtotal</th>
-                <th scope="col">Remove Item</th>
+                <th scope="col" style={{ width: "100px" }}>Subtotal</th>
+                <th scope="col">Remove</th>
               </tr>
             </thead>
             <tbody>
@@ -43,7 +35,7 @@ const Cart = () => {
                         <img src={product.image} alt="" style={{ height: "50px", width: "45px" }} />
                       </td>
                       <td className='fw-semibold'>{product.title}</td>
-                      <td className='fw-semibold'>$ {Math.ceil(product.price)}</td>
+                      <td className='fw-semibold'>$ {product.price}</td>
 
                       {/* Inc & Dec Button */}
 
@@ -51,41 +43,62 @@ const Cart = () => {
                         <div className='d-inline-flex'>
                           <button
                             className='btn btn-sm btn-primary'
-                            onClick={DecrementItems}>-</button>
+                            onClick={() => dispatch(DecItems(product.id))}>-</button>
 
-                          <div className='bg-light text-center' style={{ width: "50px" }}>{amount}</div>
+                          <div className='bg-light text-center' style={{ width: "40px" }}>{product.quantity}</div>
 
                           <button
                             className='btn btn-sm btn-primary'
-                            onClick={IncrementItems}>+</button>
+                            onClick={() => dispatch(IncItems(product.id))}>+</button>
                         </div>
                       </td>
 
                       {/* Subtotal Amount */}
 
-                      <td className='fw-semibold'>$ {Math.ceil(product.price * amount)}</td>
+                      <td className='fw-semibold'>$ {(product.price * product.quantity).toFixed(2)}</td>
 
                       <td>
                         <button
-                          className='btn btn-sm btn-danger'
-                          onClick={() => removeProduct(product.id)}>Remove</button>
+                          className='btn btn-sm btn-danger fw-semibold'
+                          onClick={() => removeProduct(product)}>
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
                       </td>
                     </tr>
                   )
                 })
               }
+
+              {/* Total Price */}
+
               <tr>
                 <td></td>
                 <td></td>
+                <td className='fw-semibold' colSpan="2">Total Price</td>
+                <td className='fw-semibold'>$ {Math.ceil(total)}</td>
+                <td>
+                  <button
+                    className='btn btn-sm btn-primary fw-semibold'
+                    onClick={() => dispatch(TotalPrice())}>
+                   Update <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                </td>
+              </tr>
+
+              {/* Clear Cart */}
+
+              <tr>
                 <td></td>
-                <td></td>
-                <td>Total</td>
-                <td></td>
+                <td colSpan="5">
+                  <button
+                    className='btn btn-sm btn-danger fw-semibold'
+                    onClick={() => dispatch(EmptyCart())}>Clear Cart</button>
+                </td>
               </tr>
             </tbody>
           </table>
 
-          : <h4 className='text-center'><em>Opps!! The Cart Is Empty :(</em></h4>
+          : <h2 className='text-center'><em>Cart Is Empty</em></h2>
       }
     </div>
   )
