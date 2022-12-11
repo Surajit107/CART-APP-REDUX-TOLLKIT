@@ -36,7 +36,7 @@ const Products = () => {
                                     <div className="card-body mt-3">
                                         <h5 className="card-title text-center"><em>{product.title}</em></h5>
                                         <br />
-                                        <h6 className="card-title text-center">${product.price}</h6>
+                                        <h6 className="card-title text-center">₹&nbsp;{product.price}</h6>
                                         <br />
                                     </div>
                                     <button

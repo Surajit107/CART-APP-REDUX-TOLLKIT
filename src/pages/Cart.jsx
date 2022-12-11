@@ -35,7 +35,7 @@ const Cart = () => {
                         <img src={product.image} alt="" style={{ height: "50px", width: "45px" }} />
                       </td>
                       <td className='fw-semibold'>{product.title}</td>
-                      <td className='fw-semibold'>$ {product.price}</td>
+                      <td className='fw-semibold'>₹&nbsp;{product.price}</td>
 
                       {/* Inc & Dec Button */}
 
@@ -55,7 +55,7 @@ const Cart = () => {
 
                       {/* Subtotal Amount */}
 
-                      <td className='fw-semibold'>$ {(product.price * product.quantity).toFixed(2)}</td>
+                      <td className='fw-semibold'>₹&nbsp;{(product.price * product.quantity).toFixed(2)}</td>
 
                       <td>
                         <button
@@ -75,7 +75,7 @@ const Cart = () => {
                 <td></td>
                 <td></td>
                 <td className='fw-semibold' colSpan="2">Total Price</td>
-                <td className='fw-semibold'>$ {Math.ceil(total)}</td>
+                <td className='fw-semibold'>₹&nbsp;{Math.ceil(total)}</td>
                 <td>
                   <button
                     className='btn btn-sm btn-primary fw-semibold'
