@@ -36,13 +36,13 @@ const Products = () => {
                                     <div className="card-body mt-3">
                                         <h5 className="card-title text-center"><em>{product.title}</em></h5>
                                         <br />
-                                        <h6 className="card-title text-center">₹&nbsp;{product.price}</h6>
+                                        <h6 className="card-title text-center">₹&nbsp;{Math.ceil(product.price)}</h6>
                                         <br />
                                     </div>
                                     <button
                                         className='btn btn-primary btn-sm fw-bold'
                                         onClick={() => addProduct(product)}>
-                                        <i class="fa-solid fa-cart-plus"></i>
+                                        <i className="fa-solid fa-cart-plus"></i>
                                         &nbsp;&nbsp;Add To Cart
                                     </button>
                                 </div>

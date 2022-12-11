@@ -4,7 +4,7 @@ import { DecItems, EmptyCart, IncItems, removeItem, TotalPrice } from '../redux/
 
 const Cart = () => {
   const dispatch = useDispatch()
-  const { cartData, total } = useSelector((state) => state.cart)
+  const { cartData, total, shippingCost } = useSelector((state) => state.cart)
 
   const removeProduct = (product) => {
     dispatch(removeItem(product))
@@ -35,7 +35,7 @@ const Cart = () => {
                         <img src={product.image} alt="" style={{ height: "50px", width: "45px" }} />
                       </td>
                       <td className='fw-semibold'>{product.title}</td>
-                      <td className='fw-semibold'>₹&nbsp;{product.price}</td>
+                      <td className='fw-semibold'>₹&nbsp;{Math.ceil(product.price)}</td>
 
                       {/* Inc & Dec Button */}
 
@@ -55,13 +55,13 @@ const Cart = () => {
 
                       {/* Subtotal Amount */}
 
-                      <td className='fw-semibold'>₹&nbsp;{(product.price * product.quantity).toFixed(2)}</td>
+                      <td className='fw-semibold'>₹&nbsp;{Math.ceil(product.price * product.quantity)}</td>
 
                       <td>
                         <button
                           className='btn btn-sm btn-danger fw-semibold'
                           onClick={() => removeProduct(product)}>
-                          <i class="fa-solid fa-trash"></i>
+                          <i className="fa-solid fa-trash"></i>
                         </button>
                       </td>
                     </tr>
@@ -72,15 +72,15 @@ const Cart = () => {
               {/* Total Price */}
 
               <tr>
-                <td></td>
-                <td></td>
                 <td className='fw-semibold' colSpan="2">Total Price</td>
+                <td></td>
+                <td className='fw-semibold'>Shipping Cost:&nbsp;&nbsp;₹&nbsp;{Math.ceil(shippingCost)}</td>
                 <td className='fw-semibold'>₹&nbsp;{Math.ceil(total)}</td>
                 <td>
                   <button
                     className='btn btn-sm btn-primary fw-semibold'
                     onClick={() => dispatch(TotalPrice())}>
-                   Update <i class="fa-solid fa-pen-to-square"></i>
+                    Update <i className="fa-solid fa-pen-to-square"></i>
                   </button>
                 </td>
               </tr>
