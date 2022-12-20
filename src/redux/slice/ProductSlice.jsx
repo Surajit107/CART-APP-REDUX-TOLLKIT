@@ -4,8 +4,7 @@ import axios from "axios";
 export const fetchProducts = createAsyncThunk("products", async () => {
     try {
         const res = await axios.get("http://localhost:3001/products")
-        const result = res?.data
-        return result;
+        return res?.data;
     } catch (error) {
         console.log(error)
     }
@@ -14,7 +13,7 @@ export const fetchProducts = createAsyncThunk("products", async () => {
 export const ProductSlice = createSlice({
     name: "productslice",
     initialState: {
-        products: [],
+        all_products: [],
         status: "idle",
         loading: false
     },
@@ -24,15 +23,17 @@ export const ProductSlice = createSlice({
             .addCase(fetchProducts.pending, (state) => {
                 state.status = "Loading..."
                 state.loading = true
+                state.all_products = null
             })
             .addCase(fetchProducts.fulfilled, (state, action) => {
-                state.status = "Resolved"
+                state.status = "Success"
                 state.loading = false
-                state.products = action.payload
+                state.all_products = action.payload
             })
             .addCase(fetchProducts.rejected, (state) => {
                 state.status = "Failed"
                 state.loading = false
+                state.all_products = null
             })
     }
 })

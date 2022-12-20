@@ -4,11 +4,12 @@ import { addItem } from '../redux/slice/CartSlice'
 import { fetchProducts } from '../redux/slice/ProductSlice'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
 
 
 const Products = () => {
     const dispatch = useDispatch()
-    const { products, loading } = useSelector((state) => state.productslice)
+    const { all_products, loading } = useSelector((state) => state.productslice)
 
     useEffect(() => {
         dispatch(fetchProducts())
@@ -25,9 +26,14 @@ const Products = () => {
     return (
         <div>
             <h2 className='text-center mt-2'><em className='shadow p-3 mb-5 bg-secondary rounded text-white'>All Products</em></h2>
+
+            <p className='fst-italic fs-7 text-center mt-5'>
+                <em className='shadow p-3 mb-5 bg-info rounded text-white'>Shipping cost will be charged under the purchase of &nbsp;&nbsp;₹&nbsp;2500/-</em>
+            </p>
+
             <div className="row row-cols-1 row-cols-md-4 g-4 m-2 p-2">
                 {
-                    products?.map((product) => {
+                    all_products?.map((product) => {
                         return (
                             <div className="col" key={product.id}>
                                 <div className="shadow p-3 mb-5 bg-body rounded text-center" style={{ height: "90%" }}>
@@ -40,11 +46,18 @@ const Products = () => {
                                         <br />
                                     </div>
                                     <button
-                                        className='btn btn-primary btn-sm fw-bold'
+                                        className='btn btn-primary btn-sm fw-bold mx-2'
                                         onClick={() => addProduct(product)}>
                                         <i className="fa-solid fa-cart-plus"></i>
                                         &nbsp;&nbsp;Add To Cart
                                     </button>
+
+                                    <Link
+                                        className='btn btn-info btn-sm fw-bold text-white mx-2'
+                                        to={`/pdetails/${product.id}`}>
+                                        <i className="fa-solid fa-circle-info"></i>
+                                        &nbsp;&nbsp;Details
+                                    </Link>
                                 </div>
                             </div>
                         )

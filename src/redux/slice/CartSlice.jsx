@@ -5,6 +5,7 @@ export const CartSlice = createSlice({
     name: "name",
     initialState: {
         cartData: [],
+        sub_total: 0,
         shippingCost: 0,
         total: 0
     },
@@ -68,16 +69,15 @@ export const CartSlice = createSlice({
             let amount = 0
             let shipping = 0
             state.cartData.map((item) => {
-                if ((Number(item.quantity) * Number(item.price)) <= 2500) {
+                if ((Number(item.quantity) * Number(item.price)) < 2500) {
                     shipping += 250
-                } else {
-                    amount += (Number(item.quantity) * Number(item.price))
-                    shipping = 0
                 }
+                amount += (Number(item.quantity) * Number(item.price))
                 return amount
             })
             return {
                 ...state,
+                sub_total: amount,
                 shippingCost: shipping,
                 total: (amount + shipping)
             }

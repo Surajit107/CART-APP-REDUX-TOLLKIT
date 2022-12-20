@@ -4,7 +4,7 @@ import { DecItems, EmptyCart, IncItems, removeItem, TotalPrice } from '../redux/
 
 const Cart = () => {
   const dispatch = useDispatch()
-  const { cartData, total, shippingCost } = useSelector((state) => state.cart)
+  const { cartData, total, shippingCost, sub_total } = useSelector((state) => state.cart)
 
   const removeProduct = (product) => {
     dispatch(removeItem(product))
@@ -35,6 +35,9 @@ const Cart = () => {
                         <img src={product.image} alt="" style={{ height: "50px", width: "45px" }} />
                       </td>
                       <td className='fw-semibold'>{product.title}</td>
+
+                      {/* Base Price */}
+
                       <td className='fw-semibold'>₹&nbsp;{Math.ceil(product.price)}</td>
 
                       {/* Inc & Dec Button */}
@@ -53,7 +56,7 @@ const Cart = () => {
                         </div>
                       </td>
 
-                      {/* Subtotal Amount */}
+                      {/* All Price */}
 
                       <td className='fw-semibold'>₹&nbsp;{Math.ceil(product.price * product.quantity)}</td>
 
@@ -73,7 +76,7 @@ const Cart = () => {
 
               <tr>
                 <td className='fw-semibold' colSpan="2">Total Price</td>
-                <td></td>
+                <td className='fw-semibold'>Sub Total:&nbsp;₹&nbsp;{Math.ceil(sub_total)}</td>
                 <td className='fw-semibold'>Shipping Cost:&nbsp;&nbsp;₹&nbsp;{Math.ceil(shippingCost)}</td>
                 <td className='fw-semibold'>₹&nbsp;{Math.ceil(total)}</td>
                 <td>
@@ -98,7 +101,7 @@ const Cart = () => {
             </tbody>
           </table>
 
-          : <h2 className='text-center'><em>Cart Is Empty</em></h2>
+          : <h2 className='text-center'><em className='shadow-lg p-3 mb-5 bg-info rounded text-white'>Cart Is Empty</em></h2>
       }
     </div>
   )
