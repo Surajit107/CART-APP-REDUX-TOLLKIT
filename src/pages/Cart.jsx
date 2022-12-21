@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { DecItems, EmptyCart, IncItems, removeItem, TotalPrice } from '../redux/slice/CartSlice'
 
 const Cart = () => {
@@ -18,19 +19,21 @@ const Cart = () => {
           <table className="table table-hover text-center">
             <thead>
               <tr>
+                <th>No.</th>
                 <th scope="col">Product</th>
                 <th scope="col">Name</th>
                 <th scope="col" style={{ width: "100px" }}>Price</th>
                 <th scope="col">Amount</th>
-                <th scope="col" style={{ width: "100px" }}>Subtotal</th>
+                <th scope="col" style={{ width: "100px" }}>Total</th>
                 <th scope="col">Remove</th>
               </tr>
             </thead>
             <tbody>
               {
-                cartData.map((product) => {
+                cartData.map((product, index) => {
                   return (
                     <tr key={product.id}>
+                      <td className='fw-semibold'>{index + 1})</td>
                       <td>
                         <img src={product.image} alt="" style={{ height: "50px", width: "45px" }} />
                       </td>
@@ -46,13 +49,17 @@ const Cart = () => {
                         <div className='d-inline-flex'>
                           <button
                             className='btn btn-sm btn-primary'
-                            onClick={() => dispatch(DecItems(product.id))}>-</button>
+                            onClick={() => dispatch(DecItems(product.id))}>
+                            <i className="fa-solid fa-angle-left"></i>
+                          </button>
 
                           <div className='bg-light text-center' style={{ width: "40px" }}>{product.quantity}</div>
 
                           <button
                             className='btn btn-sm btn-primary'
-                            onClick={() => dispatch(IncItems(product.id))}>+</button>
+                            onClick={() => dispatch(IncItems(product.id))}>
+                              <i className="fa-solid fa-angle-right"></i>
+                            </button>
                         </div>
                       </td>
 
@@ -72,14 +79,19 @@ const Cart = () => {
                 })
               }
 
-              {/* Total Price */}
+              {/* Price Calculation*/}
 
               <tr>
-                <td className='fw-semibold' colSpan="2">Total Price</td>
-                <td className='fw-semibold'>Sub Total:&nbsp;₹&nbsp;{Math.ceil(sub_total)}</td>
-                <td className='fw-semibold'>Shipping Cost:&nbsp;&nbsp;₹&nbsp;{Math.ceil(shippingCost)}</td>
-                <td className='fw-semibold'>₹&nbsp;{Math.ceil(total)}</td>
-                <td>
+                <td className='fw-semibold p-4' colSpan='6'>
+                  <div className='text-end'>
+                    Sub Total:<span className="text-muted">&nbsp;₹&nbsp;{Math.ceil(sub_total)}</span>
+                    <br />
+                    Shipping Cost:<span className="text-muted">&nbsp;&nbsp;₹&nbsp;{Math.ceil(shippingCost)}</span>
+                    <br />
+                    Total Price : <span className="text-muted">₹&nbsp;{Math.ceil(total)}</span>
+                  </div>
+                </td>
+                <td className='p-5'>
                   <button
                     className='btn btn-sm btn-primary fw-semibold'
                     onClick={() => dispatch(TotalPrice())}>
@@ -91,13 +103,17 @@ const Cart = () => {
               {/* Clear Cart */}
 
               <tr>
-                <td></td>
-                <td colSpan="5">
+                <td colSpan="3">
                   <button
                     className='btn btn-sm btn-danger fw-semibold'
-                    onClick={() => dispatch(EmptyCart())}>Clear Cart</button>
+                    onClick={() => dispatch(EmptyCart())}>
+                    Clear Cart</button>
+                </td>
+                <td colSpan="4">
+                  <Link to='/checkOut' className='btn btn-sm btn-primary fw-semibold'>Place Order</Link>
                 </td>
               </tr>
+
             </tbody>
           </table>
 

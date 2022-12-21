@@ -15,13 +15,18 @@ const ProductDetails = () => {
 
     return (
         <div className='text-center m-5'>
-            <div className="card mb-3" style={{ maxWidth: "540px" }}>
+            <div className="card mb-3">
                 <div className="row g-0">
                     <div className="col-md-4">
-                        <img src={product[0]?.image} className="img-fluid rounded-start m-5" alt="..." />
+                        <img
+                            src={product[0]?.image}
+                            className="img-fluid rounded-start m-5"
+                            alt="..."
+                            style={{ width: "230px", height: "250px", cursor: "pointer" }}
+                        />
+                        <p className="card-text pb-5"><small className="text-muted">Category&nbsp;:&nbsp;&nbsp;{product[0]?.category}</small></p>
                     </div>
-                    <div className="col-md-12 ">
-                        <p className="card-text ml-5"><small className="text-muted">Category&nbsp;:&nbsp;&nbsp;{product[0]?.category}</small></p>
+                    <div className="col-md-8">
                         <div className="card-body">
                             <h5 className="card-title">{product[0]?.title}</h5>
                             <h4 className="card-title">Price: ₹&nbsp;{Math.ceil(product[0]?.price)}</h4>

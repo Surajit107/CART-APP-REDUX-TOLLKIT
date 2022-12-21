@@ -37,7 +37,7 @@ const Products = () => {
                         return (
                             <div className="col" key={product.id}>
                                 <div className="shadow p-3 mb-5 bg-body rounded text-center" style={{ height: "90%" }}>
-                                    <img src={product.image} className="card-img-top" alt="" style={{ height: "120px", width: "110px" }} />
+                                    <img src={product.image} className="card-img-top" alt="" style={{ height: "120px", width: "105px", cursor: "pointer" }} />
 
                                     <div className="card-body mt-3">
                                         <h5 className="card-title text-center"><em>{product.title}</em></h5>
@@ -56,7 +56,7 @@ const Products = () => {
                                         className='btn btn-info btn-sm fw-bold text-white mx-2'
                                         to={`/pdetails/${product.id}`}>
                                         <i className="fa-solid fa-circle-info"></i>
-                                        &nbsp;&nbsp;Details
+                                        &nbsp;&nbsp;View Details
                                     </Link>
                                 </div>
                             </div>
