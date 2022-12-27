@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from 'react-toastify';
 
 export const CartSlice = createSlice({
-    name: "name",
+    name: "cart",
     initialState: {
         cartData: [],
         sub_total: 0,
